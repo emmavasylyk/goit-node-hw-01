@@ -21,10 +21,6 @@ async function getContactById(contactId) {
   return result;
 }
 
-function removeContact(contactId) {
-  // ...твой код
-}
-
 async function addContact(name, email, phone) {
   const contacts = await listContacts();
   const newContact = { name, email, phone, id: v4() };
@@ -33,4 +29,32 @@ async function addContact(name, email, phone) {
   return newContact;
 }
 
-module.exports = { listContacts, getContactById, addContact };
+async function updateContactById(contactId, name, email, phone) {
+  const contacts = await listContacts();
+  const idx = contacts.findIndex((item) => item.id === contactId);
+  if (idx === -1) {
+    return null;
+  }
+  contacts[idx] = { id: contactId, name, email, phone };
+  await fs.writeFile(contactsPath, JSON.stringify(contacts, null, 2));
+  return contacts[idx];
+}
+
+async function removeContact(contactId) {
+  const contacts = await listContacts();
+  const idx = contacts.findIndex((item) => item.id === contactId);
+  if (idx === -1) {
+    return null;
+  }
+  const [delateContact] = contacts.splice(idx, 1);
+  await fs.writeFile(contactsPath, JSON.stringify(contacts, null, 2));
+  return delateContact;
+}
+
+module.exports = {
+  listContacts,
+  getContactById,
+  addContact,
+  updateContactById,
+  removeContact,
+};

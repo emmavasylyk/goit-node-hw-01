@@ -22,7 +22,23 @@ async function invokeAction({ action, id, name, email, phone }) {
       console.log(creatContact);
       break;
 
+    case "update":
+      const updateContact = await contactsList.updateContactById(
+        id,
+        name,
+        email,
+        phone
+      );
+      if (!updateContact) {
+        throw new Error(`Contact with id=${id} not found`);
+      }
+      console.log(updateContact);
+      // ... id
+      break;
+
     case "remove":
+      const removeContact = await contactsList.removeContact(id);
+      console.log(removeContact);
       // ... id
       break;
 
@@ -36,10 +52,20 @@ async function invokeAction({ action, id, name, email, phone }) {
 // const id = "110";
 // invokeAction({ action: "get", id });
 
-const name = "Sara Smit";
-const email = "sara@utquamvel.net";
-const phone = "(682) 822-2959";
+// const name = "Sara Smit";
+// const email = "sara@utquamvel.net";
+// const phone = "(682) 822-2959";
 
-invokeAction({ action: "add", name, email, phone });
+// invokeAction({ action: "add", name, email, phone });
 
 // invokeAction(argv);
+
+// const name = "Maria Smit";
+// const email = "Sara@utquamvel.net";
+// const phone = "(682) 822-2959";
+
+const updateId = "1d89c915-94b7-49bb-a0fc-223b98302374";
+
+// invokeAction({ action: "update", id: updateId, name, email, phone });
+
+invokeAction({ action: "remove", id: updateId });
