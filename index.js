@@ -17,7 +17,7 @@ async function invokeAction({ action, id, name, email, phone }) {
   switch (action) {
     case "list":
       const contacts = await contactsList.listContacts();
-      console.log(contacts);
+      console.table(contacts);
       break;
 
     case "get":
@@ -25,12 +25,12 @@ async function invokeAction({ action, id, name, email, phone }) {
       if (!contact) {
         throw new Error(`Contact with id=${id} not found`);
       }
-      console.log(contact);
+      console.table(contact);
       break;
 
     case "add":
       const creatContact = await contactsList.addContact(name, email, phone);
-      console.log(creatContact);
+      console.table(creatContact);
       break;
 
     case "update":
@@ -43,40 +43,17 @@ async function invokeAction({ action, id, name, email, phone }) {
       if (!updateContact) {
         throw new Error(`Contact with id=${id} not found`);
       }
-      console.log(updateContact);
-      // ... id
+      console.table(updateContact);
       break;
 
     case "remove":
       const removeContact = await contactsList.removeContact(id);
-      console.log(removeContact);
-      // ... id
+      console.table(removeContact);
       break;
 
     default:
       console.warn("\x1B[31m Unknown action type!");
   }
 }
-
-// invokeAction({ action: "list" });
-
-// const id = "110";
-// invokeAction({ action: "get", id });
-
-// const name = "Sara Smit";
-// const email = "sara@utquamvel.net";
-// const phone = "(682) 822-2959";
-
-// invokeAction({ action: "add", name, email, phone });
-
-// const name = "Maria Smit";
-// const email = "Sara@utquamvel.net";
-// const phone = "(682) 822-2959";
-
-// const updateId = "1d89c915-94b7-49bb-a0fc-223b98302374";
-
-// // invokeAction({ action: "update", id: updateId, name, email, phone });
-
-// invokeAction({ action: "remove", id: updateId });
 
 invokeAction(argv);
